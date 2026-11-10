@@ -18,34 +18,34 @@ Bảng `HOA_DON_COC` đã được gộp chung vào bảng `HOA_DON` để quả
 * `HD_tong_hop`
 
 ---
-
 ## 3. Sơ đồ Luồng vận hành (Workflow)
 
 ### 3.1. Luồng trạng thái phòng và phát sinh hóa đơn
+
 ```mermaid
 flowchart TD
-    subgraph DANH_SACH_PHONG [Bảng: DANH_SACH_PHONG (Phòng)]
-        P_Trong(DSP_trong / Trống) --> P_ChoVaoO(DSP_cho_vao_o / Chờ vào ở)
-        P_ChoVaoO --> P_DangThue(DSP_dang_cho_thue / Đang cho thuê)
-        P_DangThue --> P_SapTrong(DSP_sap_trong / Sắp trống)
+    subgraph DANH_SACH_PHONG ["Bảng: DANH_SACH_PHONG (Phòng)"]
+        P_Trong["DSP_trong / Trống"] --> P_ChoVaoO["DSP_cho_vao_o / Chờ vào ở"]
+        P_ChoVaoO --> P_DangThue["DSP_dang_cho_thue / Đang cho thuê"]
+        P_DangThue --> P_SapTrong["DSP_sap_trong / Sắp trống"]
         P_SapTrong --> P_Trong
     end
 
-    subgraph DAT_COC [Bảng: DAT_COC (Đặt cọc giữ phòng)]
-        DC_ChoKy(DC_cho_ky_hop_dong) --> DC_DaKy(DC_da_ky_hop_dong)
+    subgraph DAT_COC ["Bảng: DAT_COC (Đặt cọc giữ phòng)"]
+        DC_ChoKy["DC_cho_ky_hop_dong"] --> DC_DaKy["DC_da_ky_hop_dong"]
     end
 
-    subgraph HOP_DONG_THUE [Bảng: HOP_DONG_THUE (Hợp đồng)]
-        HDT_ChoVaoO(HDT_cho_vao_o) --> HDT_DangO(HDT_dang_o / Đang hiệu lực)
-        HDT_DangO --> HDT_SapHetHan(HDT_sap_het_han)
-        HDT_DangO --> HDT_DangGiaHan(HDT_dang_gia_han)
-        HDT_SapHetHan --> HDT_ThanhLy(Thanh lý / Hủy / Đã quá hạn)
+    subgraph HOP_DONG_THUE ["Bảng: HOP_DONG_THUE (Hợp đồng)"]
+        HDT_ChoVaoO["HDT_cho_vao_o"] --> HDT_DangO["HDT_dang_o / Đang hiệu lực"]
+        HDT_DangO --> HDT_SapHetHan["HDT_sap_het_han"]
+        HDT_DangO --> HDT_DangGiaHan["HDT_dang_gia_han"]
+        HDT_SapHetHan --> HDT_ThanhLy["Thanh lý / Hủy / Đã quá hạn"]
     end
 
-    subgraph HOA_DON [Bảng: HOA_DON (Gộp Cọc & Dịch vụ)]
-        HDC_ChuaThanhToan(Chưa thanh toán) --> HDC_ThanhToan1Phan(Thanh toán 1 phần)
-        HDC_ThanhToan1Phan --> HDC_ThanhToanDu(Đã thanh toán đủ)
-        HDC_ThanhToanDu --> HDC_ThanhToanDuThua(Thanh toán quá số tiền)
+    subgraph HOA_DON ["Bảng: HOA_DON (Gộp Cọc & Dịch vụ)"]
+        HDC_ChuaThanhToan["Chưa thanh toán"] --> HDC_ThanhToan1Phan["Thanh toán 1 phần"]
+        HDC_ThanhToan1Phan --> HDC_ThanhToanDu["Đã thanh toán đủ"]
+        HDC_ThanhToanDu --> HDC_ThanhToanDuThua["Thanh toán quá số tiền"]
     end
 
     P_Trong -. "Khách cọc tiền" .-> DC_ChoKy
@@ -55,13 +55,10 @@ flowchart TD
     HDT_DangO == "Sinh HĐ Cọc" ==> HDC_ChuaThanhToan
     HDT_DangO == "Chốt điện nước định kỳ" ==> HDC_ChuaThanhToan
 ```
-### 3.2. Luồng quản lý danh mục (Bảng SOURCE)
-
-```mermaid
 sequenceDiagram
-    participant Admin
+    participant Admin as Người quản trị (Admin)
     participant SOURCE as Bảng SOURCE
-    participant App as Giao diện AppSheet
+    participant App as AppSheet (Giao diện)
     participant User as Nhân viên
 
     Admin->>SOURCE: Thêm dữ liệu (Key="HD_tien_coc", Label="Hóa đơn tiền cọc")
