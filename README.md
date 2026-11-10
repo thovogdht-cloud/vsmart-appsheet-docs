@@ -54,7 +54,7 @@ flowchart TD
     
     HDT_DangO == "Sinh HĐ Cọc" ==> HDC_ChuaThanhToan
     HDT_DangO == "Chốt điện nước định kỳ" ==> HDC_ChuaThanhToan
-'''
+```
 ### 3.2. Luồng quản lý danh mục (Bảng SOURCE)
 
 ```mermaid
@@ -76,4 +76,4 @@ sequenceDiagram
     
     Admin->>SOURCE: Đổi Label thành "Tiền cọc phòng" (Giữ nguyên ID)
     SOURCE-->>App: Tự động cập nhật mọi dữ liệu cũ theo Label mới
-'''
+```
